@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>에코매트 파인더 - 친환경 신소재 추천 웹앱</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans CJK KR', 'Malgun Gothic', sans-serif; background: #F1F5F9; color: #1E293B; padding: 16px; }
+  .wrap { max-width: 1020px; margin: 0 auto; background: #FFF; border-radius: 14px; border: 1px solid #E2E8F0; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+  .head { background: #065F46; color: #FFF; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; }
+  .head h1 { font-size: 21px; font-weight: 800; }
+  .head p { font-size: 12.5px; color: #D1FAE5; margin-top: 3px; }
+  .btn-p { background: #FFF; color: #065F46; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 12px; cursor: pointer; }
+  .subbar { background: #ECFDF5; border-bottom: 1px solid #A7F3D0; padding: 10px 24px; font-size: 12.5px; color: #064E3B; }
+  .tabs { display: flex; border-bottom: 1px solid #E2E8F0; padding: 0 24px; background: #F8FAFC; }
+  .tab { padding: 10px 16px; font-size: 13px; font-weight: 700; color: #64748B; cursor: pointer; border-bottom: 3px solid transparent; }
+  .tab.active { color: #047857; border-bottom-color: #047857; background: #FFF; }
+  .grid { display: table; width: 100%; padding: 18px 24px 22px 24px; }
+  .left { display: table-cell; width: 34%; vertical-align: top; padding-right: 16px; }
+  .right { display: table-cell; width: 66%; vertical-align: top; }
+  .box { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px; }
+  .box h2 { font-size: 14.5px; font-weight: 800; border-left: 4px solid #059669; padding-left: 8px; margin-bottom: 12px; }
+  .f { margin-bottom: 11px; }
+  .f label { display: block; font-size: 11.5px; font-weight: 700; color: #475569; margin-bottom: 4px; }
+  .f select { width: 100%; padding: 8px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 12.5px; background: #FFF; }
+  .btn-go { width: 100%; background: #059669; color: #FFF; border: none; padding: 10px; border-radius: 8px; font-size: 13px; font-weight: 800; margin-top: 4px; cursor: pointer; }
+  .topcards { display: table; width: 100%; margin-bottom: 12px; }
+  .c1 { display: table-cell; width: 48%; background: #FFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 15px; vertical-align: top; }
+  .sp { display: table-cell; width: 4%; }
+  .c2 { display: table-cell; width: 48%; background: #064E3B; color: #FFF; border-radius: 12px; padding: 15px; vertical-align: top; }
+  .sm { font-size: 11px; font-weight: 700; color: #64748B; }
+  .sc { font-size: 34px; font-weight: 900; color: #059669; margin: 5px 0; }
+  .sc span { font-size: 14px; color: #64748B; }
+  .bar { width: 100%; height: 8px; background: #E2E8F0; border-radius: 5px; overflow: hidden; margin-top: 8px; }
+  .fill { width: 88%; height: 100%; background: #10B981; }
+  .c2 .sm { color: #6EE7B7; }
+  .c2 h3 { font-size: 17.5px; font-weight: 800; margin: 5px 0; }
+  .c2 p { font-size: 12px; color: #D1FAE5; line-height: 1.45; }
+  .flow { background: #FFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 15px; }
+  .flow h3 { font-size: 13.5px; font-weight: 800; margin-bottom: 10px; }
+  .nodes { display: table; width: 100%; text-align: center; }
+  .nd { display: table-cell; width: 25%; padding: 4px; }
+  .cir { width: 40px; height: 40px; border-radius: 50%; margin: 0 auto 6px auto; line-height: 40px; font-weight: 800; font-size: 13px; color: #FFF; }
+  .nt { font-size: 12px; font-weight: 800; }
+  .ns { font-size: 10.5px; color: #64748B; margin-top: 2px; }
+  #t2 { display: none; padding: 18px 24px; }
+  table.tb { width: 100%; border-collapse: collapse; font-size: 12px; }
+  table.tb th { background: #065F46; color: #FFF; padding: 8px; }
+  table.tb td { border-bottom: 1px solid #E2E8F0; padding: 8px; text-align: center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div>
+      <h1>에코매트 파인더 (EcoMat Finder)</h1>
+      <p>고분자 물성 데이터를 활용한 용도별 친환경 대체 포장재 추천 웹앱</p>
+    </div>
+    <button class="btn-p" onclick="window.print()">결과 요약서 인쇄 / PDF</button>
+  </div>
+  <div class="subbar">
+    <strong>데이터 기반 소재 추천:</strong> 포장 용도와 사용 온도·수분 조건을 입력하면, 강도·내열 한계·자연 분해 기간·탄소 감축률을 계산해 가장 알맞은 친환경 신소재를 추천합니다.
+  </div>
+  <div class="tabs">
+    <div class="tab active" id="b1" onclick="st(1)">용도별 신소재 추천</div>
+    <div class="tab" id="b2" onclick="st(2)">9종 소재 물성 비교표</div>
+  </div>
+  <div id="t1" class="grid">
+    <div class="left">
+      <div class="box">
+        <h2>사용 조건 선택</h2>
+        <div class="f">
+          <label>1. 포장 · 제품 용도</label>
+          <select id="u" onchange="run()">
+            <option value="cushion" selected>택배 완충재 (기존: 스티로폼)</option>
+            <option value="hot">뜨거운 배달 용기 (기존: PP 플라스틱)</option>
+            <option value="cold">차가운 음료 컵 (기존: PET 컵)</option>
+            <option value="wrap">신선식품 포장 랩 (기존: 비닐 랩)</option>
+          </select>
+        </div>
+        <div class="f">
+          <label>2. 최고 사용 온도</label>
+          <select id="tp" onchange="run()">
+            <option value="25" selected>상온 (25°C 이하)</option>
+            <option value="60">미온 (60°C 이하)</option>
+            <option value="90">고온 국물·음식 (85°C 이상)</option>
+          </select>
+        </div>
+        <div class="f">
+          <label>3. 물 · 기름 접촉 여부</label>
+          <select id="wt" onchange="run()">
+            <option value="dry" selected>건조 포장 (일반 접촉)</option>
+            <option value="wet">액체 · 유분 직접 접촉</option>
+          </select>
+        </div>
+        <div class="f">
+          <label>4. 우선순위 기준</label>
+          <select id="pr" onchange="run()">
+            <option value="bio" selected>빠른 생분해 · 탄소 감축 우선</option>
+            <option value="str">강도 · 내열 안정성 우선</option>
+          </select>
+        </div>
+        <button class="btn-go" onclick="run()">최적 친환경 신소재 찾기</button>
+      </div>
+    </div>
+    <div class="right">
+      <div class="topcards">
+        <div class="c1">
+          <div class="sm">소재 적합도 지수 (SUITABILITY SCORE)</div>
+          <div class="sc" id="sc">88 <span>/ 100 점</span></div>
+          <div style="font-size:11.5px; color:#475569;" id="sd">완충 성능 92% 충족 · 온도 변형 없음 (우수 등급)</div>
+          <div class="bar"><div class="fill" id="fl"></div></div>
+        </div>
+        <div class="sp"></div>
+        <div class="c2">
+          <div class="sm">1순위 추천 대체 신소재</div>
+          <h3 id="rt">버섯 균사체 폼</h3>
+          <p id="rb">기존 스티로폼은 분해에 500년 이상 걸리지만, 버섯 균사체 폼은 1.5개월 만에 흙에서 분해되며 탄소 배출량을 68% 줄입니다.</p>
+        </div>
+      </div>
+      <div class="flow">
+        <h3>기존 플라스틱 vs 추천 신소재 핵심 비교</h3>
+        <div class="nodes">
+          <div class="nd"><div class="cir" style="background:#E11D48;">기존</div><div class="nt" id="n1">EPS 스티로폼</div><div class="ns" id="s1">자연 분해 500년↑</div></div>
+          <div class="nd"><div class="cir" style="background:#2563EB;">내열</div><div class="nt" id="n2">최고 80°C 견딤</div><div class="ns" id="s2">완충 성능 92% 충족</div></div>
+          <div class="nd"><div class="cir" style="background:#D97706;">탄소</div><div class="nt" id="n3">탄소 배출 −68%</div><div class="ns" id="s3">석유계 원료 대체</div></div>
+          <div class="nd"><div class="cir" style="background:#059669;">추천</div><div class="nt" id="n4">버섯 균사체 폼</div><div class="ns" id="s4">1.5개월 내 생분해</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="t2">
+    <table class="tb">
+      <thead><tr><th>구분</th><th>소재명</th><th>강도</th><th>내열 한계</th><th>분해 기간</th><th>탄소 감축</th><th>적합도 점수</th></tr></thead>
+      <tbody>
+        <tr><td>신소재</td><td><strong>버섯 균사체 폼</strong></td><td>2.3 MPa(완충)</td><td>80°C</td><td>1.5개월</td><td>68%</td><td><strong>88점 (완충재 1위)</strong></td></tr>
+        <tr><td>신소재</td><td><strong>PHA (미생물 소재)</strong></td><td>32.0 MPa</td><td>65°C</td><td>3.0개월</td><td>62%</td><td><strong>85점 (음료컵 1위)</strong></td></tr>
+        <tr><td>신소재</td><td><strong>셀룰로오스 복합재</strong></td><td>58.0 MPa</td><td>115°C</td><td>2.5개월</td><td>64%</td><td><strong>82점 (고온용기 1위)</strong></td></tr>
+        <tr><td>신소재</td><td><strong>PBAT (생분해 랩)</strong></td><td>21.0 MPa</td><td>50°C</td><td>4.0개월</td><td>55%</td><td><strong>80점 (식품랩 1위)</strong></td></tr>
+        <tr><td>신소재</td><td>해조류 필름</td><td>18.5 MPa</td><td>48°C</td><td>1.2개월</td><td>70%</td><td>79점 (건조포장 2위)</td></tr>
+        <tr><td>신소재</td><td>일반 PLA (옥수수)</td><td>52.0 MPa</td><td>55°C</td><td>6.0개월</td><td>58%</td><td>76점 (고온 시 54점)</td></tr>
+        <tr><td>기존</td><td>PP / PET / EPS</td><td>2.5~55 MPa</td><td>70~105°C</td><td>300~500년↑</td><td>0%</td><td>41~48점 (분해 불가)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+const D = {
+  cushion: { sc:88, sd:"완충 성능 92% 충족 · 온도 변형 없음 (우수 등급)", rt:"버섯 균사체 폼", rb:"기존 스티로폼은 분해에 500년 이상 걸리지만, 버섯 균사체 폼은 1.5개월 만에 흙에서 분해되며 탄소 배출량을 68% 줄입니다.", n:["EPS 스티로폼","자연 분해 500년↑","최고 80°C 견딤","완충 성능 92% 충족","탄소 배출 −68%","석유계 원료 대체","버섯 균사체 폼","1.5개월 내 생분해"] },
+  hot: { sc:82, sd:"내열 한계 115°C 충족 · 일반 PLA(55°C 변형) 대체", rt:"셀룰로오스 복합재", rb:"85°C 이상 뜨거운 음식 용기에서는 일반 PLA가 55°C에서 찌그러지지만, 셀룰로오스 복합재는 115°C까지 견디고 2.5개월 내 분해됩니다.", n:["PP 배달 용기","자연 분해 300년↑","최고 115°C 견딤","강도 58 MPa 우수","탄소 배출 −64%","목재 펄프 기반 복합재","셀룰로오스 복합재","2.5개월 내 생분해"] },
+  cold: { sc:85, sd:"방수 성능 우수 · 3개월 내 생분해 (우수 등급)", rt:"PHA (미생물 고분자)", rb:"차가운 음료 결로와 수분에 강하며, 사용 후 토양과 해양 환경에서 3.0개월 만에 분해됩니다.", n:["PET 일회용 컵","자연 분해 450년↑","최고 65°C 견딤","방수·결로 차단 우수","탄소 배출 −62%","미생물 발효 고분자","PHA 음료 컵","3.0개월 내 생분해"] },
+  wrap: { sc:80, sd:"신축성 우수 · 4개월 내 생분해 (우수 등급)", rt:"PBAT 생분해 필름", rb:"기존 비닐 랩처럼 잘 늘어나면서도 퇴비화 조건에서 4.0개월 이내에 자연 분해됩니다.", n:["PE/PVC 식품 랩","자연 분해 400년↑","유연성·신축성 우수","식품 밀착 포장 적합","탄소 배출 −55%","생분해성 필름 소재","PBAT 생분해 필름","4.0개월 내 생분해"] }
+};
+function run() {
+  const u = document.getElementById('u').value;
+  const tp = parseInt(document.getElementById('tp').value);
+  let x = D[u];
+  let s = (tp === 90 && u !== 'hot') ? Math.max(20, x.sc - 25) : x.sc;
+  document.getElementById('sc').innerHTML = s + ' <span>/ 100 점</span>';
+  document.getElementById('fl').style.width = s + '%';
+  document.getElementById('fl').style.background = s >= 80 ? '#10B981' : '#F59E0B';
+  document.getElementById('sc').style.color = s >= 80 ? '#059669' : '#D97706';
+  document.getElementById('sd').innerText = (tp === 90 && u !== 'hot') ? '⚠ 고온(90°C) 조건이 내열 한계를 초과해 −25점 감점됨' : x.sd;
+  document.getElementById('rt').innerText = x.rt;
+  document.getElementById('rb').innerText = x.rb;
+  for(let i=0;i<4;i++){
+    document.getElementById('n'+(i+1)).innerText = x.n[i*2];
+    document.getElementById('s'+(i+1)).innerText = x.n[i*2+1];
+  }
+}
+function st(k){
+  document.getElementById('t1').style.display = k===1?'table':'none';
+  document.getElementById('t2').style.display = k===2?'block':'none';
+  document.getElementById('b1').className = k===1?'tab active':'tab';
+  document.getElementById('b2').className = k===2?'tab active':'tab';
+}
+</script>
+</body>
+</html>
